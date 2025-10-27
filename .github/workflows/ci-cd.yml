@@ -36,6 +36,11 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           export PATH=$PATH:/usr/local/bin
-          kubectl version --client
-          kubectl apply -f ~/assessment/k8s/deployment.yaml
-          kubectl apply -f ~/assessment/k8s/service.yaml
+          mkdir -p ~/.kube
+          if [ ! -f ~/.kube/config ]; then
+           sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+           sudo chown ubuntu:ubuntu ~/.kube/config
+          fi
+           kubectl get nodes
+           kubectl apply -f ~/assessment/k8s/deployment.yaml --validate=false
+           kubectl apply -f ~/assessment/k8s/service.yaml --validate=false

@@ -35,5 +35,7 @@ jobs:
         username: ubuntu
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
+          export PATH=$PATH:/usr/local/bin
+          kubectl version --client
           kubectl apply -f ~/assessment/k8s/deployment.yaml
           kubectl apply -f ~/assessment/k8s/service.yaml
